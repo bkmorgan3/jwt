@@ -30,10 +30,8 @@ userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
       return next()
     }
-    // console.log("not hashed", this.password)
     let hashedPassword = await bcrypt.hash(this.password, 10)
     this.password = hashedPassword;
-    // console.log("hashed", hashedPassword)
     return next()
   } catch (err) {
     return next(err)

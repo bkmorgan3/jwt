@@ -26,7 +26,7 @@ exports.signin = async function (req, res, next) {
     } else {
       return next({
         status: 400,
-        message: 'Invalid Email / PATHword'
+        message: 'Invalid Email / Password'
       })
     }
   } catch (err) {
@@ -59,7 +59,7 @@ exports.signup = async function (req, res, next) {
 
   } catch (err) {
     if (err.code === 11000) {
-      err.message = "Sorry that email and/ or password combination is WRONG."
+      err.message = "Sorry that email and/ or password combination is not correct."
     }
     return next({
       status: 400,
