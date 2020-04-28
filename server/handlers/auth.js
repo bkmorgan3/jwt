@@ -3,8 +3,6 @@ const jwt = require("jsonwebtoken")
 
 exports.signin = async function (req, res, next) {
   try {
-
-
     let user = await db.User.findOne({
       email: req.body.email
     });
@@ -26,13 +24,13 @@ exports.signin = async function (req, res, next) {
     } else {
       return next({
         status: 400,
-        message: 'Invalid Email / Password'
+        message: 'Login invalid, please re-enter your email / password'
       })
     }
   } catch (err) {
     return next({
       status: 400,
-      message: "Invalid Sign in Credentials"
+      message: "Something went wrong, please try logging in again."
     })
   }
 }
@@ -40,7 +38,6 @@ exports.signin = async function (req, res, next) {
 
 
 exports.signup = async function (req, res, next) {
-  console.log("signingup", req.body)
   try {
     let user = await db.User.create(req.body);
     let { id, username, profileImageUrl } = user;
@@ -56,10 +53,9 @@ exports.signup = async function (req, res, next) {
       profileImageUrl,
       token
     })
-
   } catch (err) {
     if (err.code === 11000) {
-      err.message = "Sorry that email and/ or password combination is not correct."
+      err.message = "There was a problem, please try siging up again"
     }
     return next({
       status: 400,
